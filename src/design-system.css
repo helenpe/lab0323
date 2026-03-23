@@ -1,0 +1,101 @@
+/* 
+  🎨 BIZ.AI DESIGN SYSTEM GUIDE
+  이 파일의 HEX 값을 수정하면 서비스 전체의 컬러가 일괄 변경됩니다.
+*/
+
+:root {
+    /* [1. BRAND COLORS] */
+    --color-brand-primary: #1A75FF;
+    /* 메인 포인트 블루 (넘버링, 강조) */
+    --color-brand-secondary: #93C5FD;
+    /* 서브 라이트 블루 (그라데이션용) */
+    --color-brand-accent: #E31B23;
+    /* 브랜드 로즈 레드 (포인트) */
+    --color-brand-navy: #171B26;
+    /* 다크 네이비 테마 */
+
+    /* [2. SEMANTIC COLORS] */
+    --color-emerald: #10B981;
+    --color-sky: #0EA5E9;
+    --color-purple: #A855F7;
+
+    /* [3. COMPONENT SPECIAL] */
+    --color-metal-rim: rgba(255, 255, 255, 0.08);
+    --color-metal-base: #1a1c23;
+    --color-metal-gradient-start: #3b4351;
+    --color-metal-gradient-via: #1b1f28;
+    --color-metal-gradient-end: #0c0e12;
+
+    /* [4. BACKGROUNDS] */
+    --color-bg-main: #09090B;
+    /* 전체 배경 (Black) */
+    --color-bg-surface: #ffffff05;
+    /* 카드/박스 배경 (White 5%) */
+    --color-bg-glass: #1A75FF1A;
+    /* 푸른빛 투명 박스 (Blue 10%) */
+    --color-bg-active: #FFFFFF1A;
+    /* 활성 상태 배경 (White 10%) */
+
+    /* [3. TEXT COLORS] */
+    --color-text-primary: #F3F3F3;
+    /* 메인 타이틀, 헤드라인 */
+    --color-text-secondary: #B5B5B5;
+    /* 본문, 부가 설명 (Gray-400) */
+    --color-text-dim: #FFFFFF66;
+    /* 아주 흐린 텍스트 (White 40%) */
+
+    /* [4. BORDERS & LINES] */
+    --color-border-light: #FFFFFF12;
+    /* 기본 구분선 (White 7%) */
+    --color-border-active: #1A75FF;
+    /* 강조된 테두리 (Blue 30%) */
+
+    /* [5. SHADCN SYSTEM MAPPING] 
+       기존 index.css와 충돌을 방지하기 위해 여기서 한꺼번에 정의합니다.
+    */
+    --background: var(--color-bg-main);
+    --foreground: var(--color-text-primary);
+    --card: var(--color-bg-surface);
+    --card-foreground: var(--color-text-primary);
+    --popover: var(--color-bg-surface);
+    --popover-foreground: var(--color-text-primary);
+    --primary: var(--color-brand-primary);
+    --primary-foreground: #FFFFFF;
+    --secondary: var(--color-bg-active);
+    --secondary-foreground: var(--color-text-secondary);
+    --muted: var(--color-bg-surface);
+    --muted-foreground: var(--color-text-secondary);
+    --accent: var(--color-bg-glass);
+    --accent-foreground: var(--color-brand-primary);
+    --border: var(--color-border-light);
+    --input: var(--color-border-light);
+    --ring: var(--color-brand-primary);
+    --radius: 0.625rem;
+}
+
+/* Tailwind v4 매핑을 위한 설정 (Tailwind 클래스에서도 사용 가능하게) */
+@theme {
+    --color-brand-primary: var(--color-brand-primary);
+    --color-brand-secondary: var(--color-brand-secondary);
+    --color-brand-accent: var(--color-brand-accent);
+    --color-brand-navy: var(--color-brand-navy);
+
+    --color-emerald: var(--color-emerald);
+    --color-sky: var(--color-sky);
+    --color-purple: var(--color-purple);
+
+    --color-metal-base: var(--color-metal-base);
+    --color-metal-gradient-start: var(--color-metal-gradient-start);
+    --color-metal-gradient-end: var(--color-metal-gradient-end);
+
+    --color-bg-main: var(--color-bg-main);
+    --color-bg-surface: var(--color-bg-surface);
+    --color-bg-glass: var(--color-bg-glass);
+
+    --color-text-primary: var(--color-text-primary);
+    --color-text-secondary: var(--color-text-secondary);
+    --color-text-dim: var(--color-text-dim);
+
+    --color-border-light: var(--color-border-light);
+    --color-border-active: var(--color-border-active);
+}

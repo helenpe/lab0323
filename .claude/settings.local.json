@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls \"d:/2026 SWA/0313_diff/biz.ai-b-main \\(2\\)/biz.ai-b-main/public/\")",
+      "Bash(ls \"d:/2026 SWA/0313_diff/biz.ai-b-main \\(2\\)/biz.ai-b-main/public/logos/\")"
+    ]
+  }
+}

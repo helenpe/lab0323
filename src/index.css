@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+@import "tailwindcss";
+@import "./design-system.css";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: "Pretendard Variable", "Pretendard", ui-sans-serif, system-ui, sans-serif;
+  --font-poppins: "Poppins", sans-serif;
+
+  --animate-first: moveVertical 30s ease infinite;
+  --animate-second: moveInCircle 20s reverse infinite;
+  --animate-third: moveInCircle 40s linear infinite;
+  --animate-fourth: moveHorizontal 40s ease infinite;
+  --animate-fifth: moveInCircle 20s ease infinite;
+
+  /* 디자인 시스템 연동 */
+  --color-primary: var(--color-brand-primary);
+  --color-brand: var(--color-brand-accent);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  overflow-x: clip;
+  -webkit-overflow-scrolling: touch;
+  /* iOS smooth scroll */
+}
+
+/* GPU Acceleration Utility */
+.smooth-gpu {
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+  perspective: 1000px;
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+/* Hero particle ring - gather from far to form ring */
+@keyframes particle-gather {
+  0% {
+    transform: translate(-50%, -50%) translate(var(--start-x), var(--start-y)) scale(0);
+    opacity: 0;
+  }
+
+  60% {
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) translate(var(--end-x), var(--end-y)) scale(1);
+    opacity: var(--opacity);
+  }
+}
+
+.hero-particle {
+  animation: particle-gather 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* ParticleEngine - subtle twinkle (--p-opacity per particle) */
+@keyframes particle-twinkle {
+
+  0%,
+  100% {
+    opacity: calc(var(--p-opacity, 0.6) * 0.4);
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+
+  50% {
+    opacity: var(--p-opacity, 0.6);
+    transform: translate(-50%, -50%) scale(1.12);
+  }
+}
+
+@keyframes moveInCircle {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(180deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes moveVertical {
+  0% {
+    transform: translateY(-50%);
+  }
+
+  50% {
+    transform: translateY(50%);
+  }
+
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes moveHorizontal {
+  0% {
+    transform: translateX(-50%) translateY(-10%);
+  }
+
+  50% {
+    transform: translateX(50%) translateY(10%);
+  }
+
+  100% {
+    transform: translateX(-50%) translateY(-10%);
+  }
+}
+
+.particle-dot {
+  will-change: opacity, transform;
+}
+
+/* Framer-like Grid Background Utility */
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+:root {
+  --responsive-padding: 40px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --responsive-padding: 20px;
+  }
+}
+
+/* 768px ~ 1299px 구간 좌우 패딩 40px(px-10), 768px 미만 20px(px-5) 적용 컨테이너 */
+.container-responsive {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--responsive-padding);
+  padding-right: var(--responsive-padding);
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+button {
+  cursor: pointer !important;
+}
