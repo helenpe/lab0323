@@ -13,16 +13,16 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
-          "border bg-transparent border-border-light text-text-primary hover:border-text-primary/25",
+          "border bg-transparent border-gray-300 text-gray-900 hover:border-gray-500",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
-        premium: "bg-white text-black hover:bg-white/90 hover:scale-[1.02] shadow-[0_0_20px_rgba(255,255,255,0.1)]",
-        "premium-outline": "bg-transparent text-text-primary border border-border-light hover:border-brand-primary/60 hover:bg-brand-primary/5 hover:text-brand-primary",
-        glass: "bg-bg-main/60 text-text-primary hover:bg-bg-main/80 border border-border-light backdrop-blur-sm shadow-xl",
-        nav: "bg-white text-black hover:bg-white/90 disabled:bg-text-primary/10 disabled:text-text-primary/20 disabled:cursor-not-allowed",
+        premium: "bg-brand-primary text-white hover:bg-brand-primary/90 hover:scale-[1.02] shadow-lg shadow-brand-primary/20",
+        "premium-outline": "bg-transparent text-gray-700 border border-gray-300 hover:border-brand-primary/60 hover:bg-brand-primary/5 hover:text-brand-primary",
+        glass: "bg-gray-100 text-gray-900 hover:bg-gray-200 border border-gray-200",
+        nav: "bg-brand-primary text-white hover:bg-brand-primary/90 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

@@ -86,11 +86,11 @@ export default function HeroContent({ onSubmit, isAnalyzing = false, align = 'ce
         transition={{ duration: 0.6, delay: 0.3 }}
         className={`hidden md:flex mb-6 ${isLeft ? 'justify-start' : 'justify-center'} w-full`}
       >
-        <div className="relative inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm overflow-hidden">
+        <div className="relative inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-primary/10 border border-brand-primary/20 overflow-hidden">
           <motion.span
             className="relative font-normal text-[13px] tracking-[0.05em] font-pretendard bg-clip-text text-transparent bg-[length:200%_100%]"
             style={{
-              backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.4) 100%)',
+              backgroundImage: 'linear-gradient(90deg, rgba(59,130,246,0.5) 0%, rgba(59,130,246,1) 50%, rgba(59,130,246,0.5) 100%)',
             }}
             animate={{ backgroundPosition: ['200% 0', '-200% 0'] }}
             transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
@@ -114,13 +114,13 @@ export default function HeroContent({ onSubmit, isAnalyzing = false, align = 'ce
               className={`text-4xl md:text-5xl lg:text-[64px] font-[600] mb-4 md:mb-6 leading-[1.1] tracking-tight w-full max-w-5xl flex flex-col ${isLeft ? 'items-start' : 'items-center'}`}
             >
               <span className={`block whitespace-nowrap ${isLeft ? 'text-left' : 'text-center'}`}>
-                <span className="bg-gradient-to-br from-brand-secondary via-text-primary to-text-primary bg-clip-text text-transparent">
+                <span className="text-gray-900">
                   {lines[0]}
                 </span>
                 {!done && lines.length === 1 && <span className="inline-block w-[3px] h-[0.85em] bg-brand-primary ml-1 align-middle animate-pulse" />}
               </span>
               <span className={`block whitespace-nowrap ${isLeft ? 'text-left' : 'text-center'}`}>
-                <span className="bg-gradient-to-br from-brand-secondary via-text-primary to-text-primary bg-clip-text text-transparent">
+                <span className="text-gray-900">
                   {lines[1] ?? ''}
                 </span>
                 {!done && lines.length === 2 && <span className="inline-block w-[3px] h-[0.85em] bg-brand-primary ml-1 align-middle animate-pulse" />}
@@ -146,7 +146,7 @@ export default function HeroContent({ onSubmit, isAnalyzing = false, align = 'ce
               setIndex(i);
               startRotation();
             }}
-            className={`h-1.5 w-1.5 rounded-full transition-all duration-500 ${i === index ? "bg-text-primary" : "bg-text-primary/20 hover:bg-text-primary/40"
+            className={`h-1.5 w-1.5 rounded-full transition-all duration-500 ${i === index ? "bg-gray-900" : "bg-gray-300 hover:bg-gray-500"
               }`}
             aria-label={`Slide ${i + 1}`}
           />

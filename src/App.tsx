@@ -820,25 +820,6 @@ const App = () => {
               <HeroContent align="left" />
             </div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
-              className="absolute left-1/2 -translate-x-1/2 bottom-0 translate-y-1/2 md:top-1/2 md:bottom-auto md:-translate-y-1/2 lg:left-[55%] lg:translate-x-0 w-[420px] md:w-[600px] lg:w-[720px] z-0 lg:z-10 pointer-events-none opacity-50 md:opacity-40 lg:opacity-90"
-            >
-              <motion.div
-                className="relative"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-              >
-                <div className="absolute -inset-20 bg-blue-500/5 rounded-full blur-[100px] z-0" />
-                <img
-                  src="/banner.png"
-                  alt="Biz.AI Hero"
-                  className="w-full h-auto object-contain relative z-10 opacity-90 shadow-2xl"
-                />
-              </motion.div>
-            </motion.div>
           </div>
         </div>
 
