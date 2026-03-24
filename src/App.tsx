@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { useScroll, useTransform, useMotionTemplate, motion, useInView, AnimatePresence, animate, useAnimation, useMotionValueEvent, useMotionValue, useSpring } from 'motion/react';
+import { useScroll, useTransform, useMotionTemplate, motion, AnimatePresence, useAnimation, useMotionValueEvent, useMotionValue, useSpring } from 'motion/react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -64,28 +64,6 @@ const StudioCard = ({ icon, title, desc }: { icon: React.ReactElement; title: st
   </Card>
 );
 
-const AnimatedCounter = ({ from, to }: { from: number; to: number }) => {
-  const nodeRef = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(nodeRef, { once: false, margin: "-100px" });
-
-  useEffect(() => {
-    if (!isInView || !nodeRef.current) return;
-
-    const controls = animate(from, to, {
-      duration: 2,
-      ease: "easeOut",
-      onUpdate(value) {
-        if (nodeRef.current) {
-          nodeRef.current.textContent = Intl.NumberFormat("en-US").format(Math.floor(value));
-        }
-      }
-    });
-
-    return () => controls.stop();
-  }, [isInView, from, to]);
-
-  return <span ref={nodeRef}>{Intl.NumberFormat("en-US").format(from)}</span>;
-};
 
 const SolutionCard = ({ number, image, title, desc, highlight, isLarge }: { number: string; image: string; title: string; desc: string; highlight: string; isLarge?: boolean }) => (
   <div className="bg-white rounded-[20px] p-6 md:p-10 flex flex-col w-full min-w-[280px] h-[340px] md:h-[424px] group cursor-pointer shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_48px_rgba(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-2 font-pretendard relative overflow-hidden">
@@ -358,105 +336,6 @@ const CTAParticles = () => {
   return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none opacity-40 translate-z-0" />;
 };
 
-const DomainAccordionItem = ({
-  title,
-  agents,
-  image,
-  isActive,
-  forceExpanded,
-  onMouseEnter,
-  onClick
-}: {
-  title: string;
-  agents: string[];
-  image: string;
-  isActive: boolean;
-  forceExpanded?: boolean;
-  onMouseEnter: () => void;
-  onClick: () => void;
-}) => {
-  const expanded = isActive || forceExpanded;
-
-  const agentListVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.08,
-        delayChildren: forceExpanded ? 0 : 0.15,
-      }
-    }
-  };
-
-  const agentItemVariants = {
-    hidden: { opacity: 0, y: 12, filter: 'blur(6px)' },
-    visible: {
-      opacity: 1,
-      y: 0,
-      filter: 'blur(0px)',
-      transition: { type: 'spring' as const, stiffness: 200, damping: 24 }
-    }
-  };
-
-  return (
-    <motion.div
-      layout
-      onMouseEnter={onMouseEnter}
-      onClick={onClick}
-      className="relative overflow-hidden cursor-pointer rounded-2xl smooth-gpu w-full lg:w-auto"
-      style={{ willChange: 'flex, width' }}
-      animate={{
-        flex: forceExpanded ? 300 : isActive ? (window.innerWidth < 1024 ? 300 : 780) : (window.innerWidth < 1024 ? 100 : 122),
-        minHeight: forceExpanded ? 160 : undefined,
-      }}
-      transition={{
-        type: 'spring',
-        stiffness: 80,
-        damping: 22,
-        mass: 1,
-      }}
-    >
-      <div className="absolute inset-0">
-        <motion.img
-          src={image}
-          alt={title}
-          loading="eager"
-          className="w-full h-full object-cover"
-          animate={{
-            filter: expanded ? 'grayscale(0) brightness(0.85) contrast(1.1)' : 'grayscale(1) brightness(0.4)',
-            scale: expanded ? 1.06 : 1
-          }}
-          transition={{ type: 'spring', stiffness: 80, damping: 22 }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/10 to-black/70" />
-      </div>
-
-      <div className={`absolute inset-x-0 top-0 p-6 md:p-8 flex flex-col justify-start h-full ${expanded ? 'items-start text-left' : 'items-center'}`}>
-        <p className="text-white/60 font-medium text-[14px] tracking-wide mb-3 whitespace-nowrap uppercase">
-          {title}
-        </p>
-
-        <AnimatePresence>
-          {expanded && (
-            <motion.div
-              key="agents"
-              variants={agentListVariants}
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-              className="flex flex-col gap-1.5 md:gap-2"
-            >
-              {agents.map((agent, i) => (
-                <motion.div key={i} variants={agentItemVariants}>
-                  <span className="text-white text-[20px] md:text-[22px] lg:text-[26px] font-bold leading-tight">{agent}</span>
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </motion.div>
-  );
-};
 
 const Tag = ({ text }: { text: string }) => (
   <Badge variant="outline" className="border-brand-primary text-brand-primary rounded-full px-4 py-1.5 font-medium whitespace-nowrap">
@@ -663,7 +542,6 @@ const StudioSection = () => {
 
 const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeDomain, setActiveDomain] = useState<number>(0);
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -1011,69 +889,6 @@ const App = () => {
           </motion.div>
         </div>
 
-        <section id="domain" className="py-20 md:py-32 relative overflow-hidden pb-16" style={{ backgroundColor: '#101013', display: 'none' }}>
-          <div className="max-w-[1280px] mx-auto container-responsive">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8 }}
-              className="text-left mb-12 md:mb-16 font-pretendard"
-            >
-              <span className="text-brand-primary font-semibold text-[13px] md:text-[18px] mb-2 md:mb-4 block tracking-tight">Multi Agent</span>
-              <h2 className="text-[26px] md:text-[36px] lg:text-[58px] font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">도메인별 Multi Agent</h2>
-              <p className="text-gray-600 text-[13px] md:text-[16px] lg:text-[18px] font-normal tracking-tight">공공/금융 등 도메인별로 kt ds의 Multi-Agent를 활용해 보세요.</p>
-            </motion.div>
-
-            <div className="flex flex-col lg:flex-row gap-1 md:gap-2 w-full h-[800px] md:h-[900px] lg:h-[700px]">
-              <DomainAccordionItem
-                title="금융"
-                agents={['Audit Agent', 'SQL Agent', 'RFP Agent']}
-                image="https://images.unsplash.com/photo-1643258367012-1e1a983489e5?auto=format&fit=crop&q=80&w=1200"
-                isActive={activeDomain === 0}
-                forceExpanded={isMobile}
-                onMouseEnter={() => setActiveDomain(0)}
-                onClick={() => setActiveDomain(0)}
-              />
-              <DomainAccordionItem
-                title="공공기관"
-                agents={['Audit Agent', 'RFP Agent', 'SQL Agent']}
-                image="https://images.unsplash.com/photo-1665865298238-ec7a85eb3f9a?auto=format&fit=crop&q=80&w=1200"
-                isActive={activeDomain === 1}
-                forceExpanded={isMobile}
-                onMouseEnter={() => setActiveDomain(1)}
-                onClick={() => setActiveDomain(1)}
-              />
-              <DomainAccordionItem
-                title="일반기업"
-                agents={['SQL Agent', 'RFP Agent', 'Codebox', 'beast AI Gateway']}
-                image="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200"
-                isActive={activeDomain === 2}
-                forceExpanded={isMobile}
-                onMouseEnter={() => setActiveDomain(2)}
-                onClick={() => setActiveDomain(2)}
-              />
-              <DomainAccordionItem
-                title="미디어"
-                agents={['SQL Agent', 'TA Agent']}
-                image="https://images.unsplash.com/photo-1652166553819-f892e61fc12c?auto=format&fit=crop&q=80&w=1200"
-                isActive={activeDomain === 3}
-                forceExpanded={isMobile}
-                onMouseEnter={() => setActiveDomain(3)}
-                onClick={() => setActiveDomain(3)}
-              />
-              <DomainAccordionItem
-                title="통신/네트워크"
-                agents={['SQL Agent', 'beast AI Gateway', 'Codebox']}
-                image="https://images.unsplash.com/photo-1680992044138-ce4864c2b962?auto=format&fit=crop&q=80&w=1200"
-                isActive={activeDomain === 4}
-                forceExpanded={isMobile}
-                onMouseEnter={() => setActiveDomain(4)}
-                onClick={() => setActiveDomain(4)}
-              />
-            </div>
-          </div>
-        </section>
 
         <section id="use-cases" className="relative" style={{ backgroundColor: '#101013', display: 'none' }}>
           {/* Title Area: Normal Scrolling */}
@@ -1340,37 +1155,6 @@ const App = () => {
         </section>
 
 
-        {/* 수치로 증명하는 Biz.AI (Stats Section) */}
-        <section id="stats" className="py-16 md:py-32 bg-white">
-          <div className="max-w-[1280px] mx-auto container-responsive">
-            <div className="text-center mb-12 md:mb-32">
-              <h2 className="text-[26px] md:text-[36px] lg:text-[58px] font-bold text-gray-900 mb-4 md:mb-6 tracking-tight">
-                수치로 증명하는 Biz.AI
-              </h2>
-              <p className="text-gray-600 text-[13px] md:text-[16px] lg:text-[18px] max-w-3xl mx-auto font-normal">
-                150+ 고객과 600+ AI Agent 구축 경험으로 Biz.AI의 역량을 증명합니다.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 lg:gap-x-16">
-              {[
-                { label: "IT Engineers", value: 1700, suffix: "+", sub: "Cloud & AI 기술을 선도하는 전문 인력" },
-                { label: "Solution", value: 18, suffix: "", sub: "AX를 리딩하는 자체 개발 솔루션" },
-                { label: "Clients", value: 150, suffix: "+", sub: "금융·공공·유통·미디어 등 다양한 산업 고객" },
-                { label: "AI Agent", value: 600, suffix: "+", sub: "도메인별 특화 AI 에이전트" }
-              ].map((stat, i) => (
-                <div key={i} className="flex flex-col items-start font-pretendard">
-                  <div className="text-[44px] md:text-[60px] lg:text-[72px] font-medium text-gray-900 tracking-tighter leading-none mb-6 md:mb-12">
-                    <AnimatedCounter from={0} to={stat.value} />
-                    <span className="text-brand-primary ml-1">{stat.suffix}</span>
-                  </div>
-                  <span className="text-gray-900 text-[13px] md:text-[16px] lg:text-[18px] font-bold mb-1">{stat.label}</span>
-                  <p className="text-gray-600 text-[12px] md:text-[14px] lg:text-[16px] leading-relaxed font-normal break-keep">{stat.sub}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* Why kt ds - 프로세스 섹션 */}
         <ProcessSection isMobile={isMobile} />
