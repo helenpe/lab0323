@@ -19,19 +19,6 @@ interface MultiAgentPlatformPageProps {
     activePage?: 'agents' | 'solutions';
 }
 
-const ALL_SECTIONS = [
-    { id: 'section-overview', label: '개요' },
-    { id: 'section-target', label: '주요 고객군' },
-    { id: 'section-values', label: '핵심가치' },
-    { id: 'section-features', label: '주요 기능' },
-    { id: 'section-screenshots', label: '주요 특징' },
-    { id: 'section-advantages', label: '특장점' },
-    { id: 'section-scenarios', label: '활용 시나리오' },
-    { id: 'section-cases', label: '고객사례' },
-    { id: 'section-videos', label: '소개영상' },
-    { id: 'section-offerings', label: '오퍼링' },
-    { id: 'section-contact', label: '문의/리소스' },
-];
 
 function EmptyPlaceholder({ label }: { label: string }) {
     return (
@@ -44,7 +31,6 @@ function EmptyPlaceholder({ label }: { label: string }) {
 export default function MultiAgentPlatformPage({ config, activePage = 'agents' }: MultiAgentPlatformPageProps) {
     const [activeTab, setActiveTab] = useState(config.sidebarItems[0]);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [activeSection, setActiveSection] = useState('section-overview');
 
     useEffect(() => {
         setActiveTab(sidebarItems[0] ?? config.sidebarItems[0]);
@@ -53,7 +39,6 @@ export default function MultiAgentPlatformPage({ config, activePage = 'agents' }
 
     useEffect(() => {
         setCurrentImageIndex(0);
-        setActiveSection('section-overview');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [activeTab]);
 
@@ -81,25 +66,6 @@ export default function MultiAgentPlatformPage({ config, activePage = 'agents' }
     const currentContent = allProducts[resolvedTab] ?? config.products[resolvedTab];
     const heroText = config.hero;
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) setActiveSection(entry.target.id);
-                });
-            },
-            { rootMargin: '-20% 0px -70% 0px', threshold: 0 }
-        );
-        ALL_SECTIONS.forEach(({ id }) => {
-            const el = document.getElementById(id);
-            if (el) observer.observe(el);
-        });
-        return () => observer.disconnect();
-    }, [activeTab]);
-
-    const scrollToSection = (id: string) => {
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-    };
 
     return (
         <div className="min-h-screen bg-white text-gray-900 font-pretendard flex flex-col">
@@ -613,28 +579,7 @@ export default function MultiAgentPlatformPage({ config, activePage = 'agents' }
                             </AnimatePresence>
                         </main>
 
-                        {/* 오른쪽 TOC */}
-                        <aside className="hidden xl:block w-[160px] shrink-0">
-                            <div className="sticky top-32 flex flex-col gap-5">
-                                <div className="text-[12px] font-bold text-gray-400 uppercase tracking-widest pl-4">Contents</div>
-                                <nav className="flex flex-col border-l border-gray-200">
-                                    {ALL_SECTIONS.map((sec) => (
-                                        <Button
-                                            key={sec.id}
-                                            variant="ghost"
-                                            rounded="none"
-                                            onClick={() => scrollToSection(sec.id)}
-                                            className={`text-left py-2.5 pl-4 text-[14px] font-medium transition-all border-l-2 -ml-[1px] cursor-pointer h-auto justify-start hover:bg-transparent ${activeSection === sec.id
-                                                ? 'text-gray-900 border-brand-primary'
-                                                : 'text-gray-400 border-transparent hover:text-gray-600'
-                                            }`}
-                                        >
-                                            {sec.label}
-                                        </Button>
-                                    ))}
-                                </nav>
-                            </div>
-                        </aside>
+
                     </div>
                 </div>
             </section>

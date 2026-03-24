@@ -875,7 +875,7 @@ export const AGENT_PAGE_CONFIG = {
 
 export const SOLUTION_PAGE_CONFIG = {
     hero: {
-        title: "AI Solution",
+        title: "AI 솔루션",
         description: "Biz.AI의 AI 플랫폼 솔루션들이 기업의 디지털 전환과 AI 도입을 가속화합니다."
     },
     sidebarItems: ["AI:ON-U", "Auto Builder", "Beast AI Gateway", "CloudWiz", "Codebox"],
