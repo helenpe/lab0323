@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import LogoCube from './LogoCube';
 
 interface NavbarProps {
   activePage?: 'home' | 'agents' | 'solutions' | 'use-cases' | 'news';
@@ -32,7 +33,7 @@ export default function Navbar({ activePage }: NavbarProps) {
       <div className="max-w-[1280px] mx-auto container-responsive flex items-center">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}>
-          <img src="/bizai_logo.png" alt="Biz.AI Logo" className="h-6 w-auto brightness-0" />
+          <LogoCube size={36} />
           <span className="text-xl font-bold text-gray-900 tracking-tighter">Biz.AI</span>
         </Link>
 
