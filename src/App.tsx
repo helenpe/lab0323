@@ -65,29 +65,30 @@ const StudioCard = ({ icon, title, desc }: { icon: React.ReactElement; title: st
 );
 
 
-const SolutionCard = ({ number, image, title, desc, highlight, isLarge }: { number: string; image: string; title: string; desc: string; highlight: string; isLarge?: boolean }) => (
-  <div className="bg-white rounded-[20px] p-6 md:p-10 flex flex-col w-full min-w-[280px] h-[340px] md:h-[424px] group cursor-pointer shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_48px_rgba(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-2 font-pretendard relative overflow-hidden">
-    {/* Index Number */}
-    <div className="text-black text-[16px] md:text-[20px] font-bold leading-none mb-2 md:mb-3">{number}</div>
-
-    {/* Title & Description Group */}
-    <div className="flex flex-col gap-2 md:gap-4 mb-4 md:mb-6">
-      <h4 className="text-black text-[24px] md:text-[32px] font-bold tracking-tight leading-tight">{title}</h4>
-      <div className="min-h-[40px] md:min-h-[48px]">
-        <p className="text-black/80 text-[13px] md:text-[16px] leading-snug font-normal break-keep whitespace-pre-line">
-          {desc}
-        </p>
+const SolutionCard = ({ number, image, title, desc, highlight, isLarge, onClick, bgSvg }: { number: string; image: string; title: string; desc: string; highlight: string; isLarge?: boolean; onClick?: () => void; bgSvg?: React.ReactNode }) => (
+  <div onClick={onClick} className="bg-white rounded-[16px] p-4 flex flex-col w-full h-[264px] group cursor-pointer shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_48px_rgba(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-2 font-pretendard relative overflow-hidden">
+    {/* Background pattern */}
+    {bgSvg && (
+      <div className="absolute inset-0 pointer-events-none opacity-[0.05] group-hover:opacity-[0.09] transition-opacity duration-500 grayscale">
+        {bgSvg}
       </div>
+    )}
+    {/* Title & Description Group */}
+    <div className="flex flex-col gap-2 flex-1 relative z-10">
+      <h4 className="text-black text-[18px] font-bold tracking-tight leading-tight">{title}</h4>
+      <p className="text-black/80 text-[16px] leading-snug font-normal break-keep whitespace-pre-line">
+        {desc}
+      </p>
     </div>
 
-    {/* Highlight Tag */}
-    <div className="text-brand-primary font-medium text-[13px] md:text-[16px] tracking-tight">
+    {/* Highlight Tag — 하단 고정 */}
+    <div className="text-brand-primary font-medium text-[12px] tracking-tight mt-auto relative z-10">
       {highlight.startsWith('#') ? highlight : `# ${highlight}`}
     </div>
 
     {/* Logo: Absolute Bottom Right Positioning */}
-    <div className="absolute bottom-6 right-6 md:bottom-10 md:right-10 pointer-events-none">
-      <div className={`relative flex items-end justify-end transition-transform duration-500 group-hover:scale-105 ${isLarge ? 'w-28 h-28 md:w-44 md:h-44' : 'w-[100px] h-[100px] md:w-[160px] md:h-[160px]'}`}>
+    <div className="absolute bottom-3 right-3 pointer-events-none z-10">
+      <div className="relative flex items-end justify-end transition-transform duration-500 group-hover:scale-105 w-[52px] h-[52px]">
         <motion.img
           src={image}
           alt={title}
@@ -96,6 +97,97 @@ const SolutionCard = ({ number, image, title, desc, highlight, isLarge }: { numb
       </div>
     </div>
   </div>
+);
+
+// Card background SVG patterns — one per product
+const BgAuditAgent = () => (
+  <svg viewBox="0 0 200 200" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+    <circle cx="160" cy="40" r="70" fill="none" stroke="#4F46E5" strokeWidth="18"/>
+    <circle cx="160" cy="40" r="42" fill="none" stroke="#4F46E5" strokeWidth="10"/>
+    <line x1="115" y1="88" x2="60" y2="160" stroke="#4F46E5" strokeWidth="20" strokeLinecap="round"/>
+    <rect x="20" y="80" width="50" height="6" rx="3" fill="#4F46E5"/>
+    <rect x="20" y="96" width="38" height="6" rx="3" fill="#4F46E5"/>
+    <rect x="20" y="112" width="44" height="6" rx="3" fill="#4F46E5"/>
+  </svg>
+);
+
+const BgRfpAgent = () => (
+  <svg viewBox="0 0 200 200" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+    <rect x="30" y="20" width="100" height="130" rx="8" fill="none" stroke="#7C3AED" strokeWidth="10"/>
+    <rect x="50" y="55" width="60" height="7" rx="3.5" fill="#7C3AED"/>
+    <rect x="50" y="74" width="48" height="7" rx="3.5" fill="#7C3AED"/>
+    <rect x="50" y="93" width="54" height="7" rx="3.5" fill="#7C3AED"/>
+    <rect x="50" y="112" width="40" height="7" rx="3.5" fill="#7C3AED"/>
+    <path d="M130 120 L165 85 L180 100 L145 135 Z" fill="#7C3AED"/>
+    <path d="M130 120 L120 155 L155 145 Z" fill="#7C3AED"/>
+  </svg>
+);
+
+const BgMeetingMinutes = () => (
+  <svg viewBox="0 0 200 200" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+    {[20,40,60,80,100,120,140,160,180].map((x, i) => {
+      const h = [30,55,80,60,90,50,70,40,25][i];
+      return <rect key={x} x={x-8} y={100-h/2} width="14" height={h} rx="7" fill="#0EA5E9"/>;
+    })}
+    <circle cx="100" cy="160" r="22" fill="none" stroke="#0EA5E9" strokeWidth="9"/>
+    <line x1="100" y1="182" x2="100" y2="195" stroke="#0EA5E9" strokeWidth="9" strokeLinecap="round"/>
+    <line x1="78" y1="195" x2="122" y2="195" stroke="#0EA5E9" strokeWidth="9" strokeLinecap="round"/>
+  </svg>
+);
+
+const BgWorksAI = () => (
+  <svg viewBox="0 0 200 200" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+    {[[100,100],[40,40],[160,40],[40,160],[160,160],[100,30],[100,170],[30,100],[170,100]].map(([cx,cy],i) => (
+      <circle key={i} cx={cx} cy={cy} r={i===0?14:9} fill="#0D9488"/>
+    ))}
+    {[[100,100,40,40],[100,100,160,40],[100,100,40,160],[100,100,160,160],[100,100,100,30],[100,100,100,170],[100,100,30,100],[100,100,170,100]].map(([x1,y1,x2,y2],i) => (
+      <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#0D9488" strokeWidth="4" strokeOpacity="0.6"/>
+    ))}
+  </svg>
+);
+
+const BgAionU = () => (
+  <svg viewBox="0 0 200 200" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+    {[[20,160,60,40],[90,160,60,60],[160,160,60,80],[20,80,40,40],[90,80,40,60]].map(([x,y,w,h],i) => (
+      <rect key={i} x={x} y={y-h} width={w} height={h} rx="5" fill="#6D28D9" fillOpacity={0.6+i*0.08}/>
+    ))}
+    <path d="M20 160 L180 160" stroke="#6D28D9" strokeWidth="5"/>
+    <circle cx="160" cy="50" r="30" fill="none" stroke="#6D28D9" strokeWidth="8" strokeDasharray="12 8"/>
+  </svg>
+);
+
+const BgCloudWiz = () => (
+  <svg viewBox="0 0 200 200" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+    <path d="M40 130 Q40 90 75 90 Q80 60 115 60 Q150 60 155 90 Q175 90 175 115 Q175 140 150 140 L55 140 Q40 140 40 130Z" fill="none" stroke="#0284C7" strokeWidth="9"/>
+    <path d="M80 155 L80 180" stroke="#0284C7" strokeWidth="7" strokeLinecap="round"/>
+    <path d="M100 155 L100 190" stroke="#0284C7" strokeWidth="7" strokeLinecap="round"/>
+    <path d="M120 155 L120 175" stroke="#0284C7" strokeWidth="7" strokeLinecap="round"/>
+    <circle cx="30" cy="80" r="20" fill="none" stroke="#0284C7" strokeWidth="6" strokeOpacity="0.5"/>
+    <circle cx="170" cy="170" r="15" fill="none" stroke="#0284C7" strokeWidth="6" strokeOpacity="0.4"/>
+  </svg>
+);
+
+const BgBeastGateway = () => (
+  <svg viewBox="0 0 200 200" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+    {[[100,100],[30,60],[170,60],[30,140],[170,140]].map(([cx,cy],i) => (
+      <circle key={i} cx={cx} cy={cy} r={i===0?16:11} fill="#D97706"/>
+    ))}
+    {[[30,60],[170,60],[30,140],[170,140]].map(([x2,y2],i) => (
+      <line key={i} x1={100} y1={100} x2={x2} y2={y2} stroke="#D97706" strokeWidth="5"/>
+    ))}
+    <rect x="70" y="70" width="60" height="60" rx="10" fill="none" stroke="#D97706" strokeWidth="6"/>
+    <line x1="30" y1="60" x2="30" y2="140" stroke="#D97706" strokeWidth="4" strokeOpacity="0.5"/>
+    <line x1="170" y1="60" x2="170" y2="140" stroke="#D97706" strokeWidth="4" strokeOpacity="0.5"/>
+  </svg>
+);
+
+const BgCodebox = () => (
+  <svg viewBox="0 0 200 200" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+    <path d="M70 60 L30 100 L70 140" fill="none" stroke="#059669" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M130 60 L170 100 L130 140" fill="none" stroke="#059669" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round"/>
+    <line x1="115" y1="40" x2="85" y2="160" stroke="#059669" strokeWidth="8" strokeLinecap="round" strokeOpacity="0.6"/>
+    <rect x="10" y="10" width="180" height="180" rx="14" fill="none" stroke="#059669" strokeWidth="6" strokeOpacity="0.3"/>
+  </svg>
 );
 
 
@@ -563,7 +655,6 @@ const App = () => {
     offset: ["start 0.5", "end 1.2"]
   });
   const [activeUseCase, setActiveUseCase] = useState(0);
-  const [agentSlide, setAgentSlide] = useState(0);
 
   // 솔루션 페이즈에서 배경을 라이트로 전환 (dRange 기준 3개 아이템)
 
@@ -729,164 +820,103 @@ const App = () => {
             style={{ clipPath, willChange: 'clip-path' } as any}
             className={`bg-[#F3F5FC] border-black/5 relative z-20 overflow-hidden mb-20 smooth-gpu ${isMobile ? 'border-none' : 'border'}`}
           >
-            <section id="solution" className="py-16 md:py-32">
+            <section id="solution" className="py-8 md:py-14">
               <div className="max-w-[1280px] mx-auto container-responsive relative">
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
-                  className="text-center mb-10 md:mb-20 font-pretendard flex flex-col items-center relative z-10"
+                  className="text-center mb-6 md:mb-10 font-pretendard flex flex-col items-center relative z-10"
                 >
-                  <h2 className="text-[26px] md:text-[36px] lg:text-[58px] font-bold text-black mb-4 md:mb-6 tracking-tight leading-tight">
+                  <h2 className="text-[26px] md:text-[36px] lg:text-[48px] font-bold text-black mb-2 md:mb-3 tracking-tight leading-tight">
                     AI 서비스
                   </h2>
-                  <p className="text-black/80 text-[14px] md:text-[18px] max-w-2xl mx-auto font-medium">
+                  <p className="text-black/80 text-[14px] md:text-[16px] max-w-2xl mx-auto font-medium">
                     AI 전략부터 운영까지, 기업 AI의 전 과정을 통합 지원합니다.
                   </p>
                 </motion.div>
 
 
                 {/* 그룹 1: 전사 공통 */}
-                <div className="mb-16 md:mb-32 max-w-[1024px] mx-auto">
+                <div className="mb-6 max-w-[1024px] mx-auto">
                   <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="flex items-center gap-2 mb-5 ml-4"
+                    className="flex items-center gap-2 mb-3 ml-4"
                   >
-                    <span className="text-[18px] font-normal text-gray-800">Agent</span>
+                    <span className="text-[18px] font-normal text-gray-800">AI 에이전트</span>
                   </motion.div>
-                  {(() => {
-                    const agentCards = [
-                      { image: "/logo_1.png", title: "AI:ON-U", desc: "엔터프라이즈 맞춤형 AI Agent를 빠르게 구축하는 No-Code 기반 Agent Builder", highlight: "#3분 완성 Agent" },
-                      { image: "/logo_2.png", title: "WorksAI", desc: "AI Agent 기반으로 다양한 업무처리를 지원하는 사내 AI Agent Portal", highlight: "#업무 효율 200% 향상" },
-                      { image: "/logo_3.png", title: "AI 회의록", desc: "음성 기반 회의 자동 기록 · 요약 · 업무 추출 AI 서비스", highlight: "#1분 완성 회의록 작성" },
-                      { image: "/bizai_logo.png", title: "Audit Agent", desc: "국정 감사를 도와주는 Agent", highlight: "#업무 생산성 30% 향상" },
-                    ];
-                    const maxSlide = agentCards.length - 3;
-                    return (
-                      <div className="relative">
-                        {/* 슬라이드 뷰포트 */}
-                        <div className="overflow-hidden">
-                          <div
-                            className="flex gap-3 transition-transform duration-500 ease-in-out"
-                            style={{ transform: `translateX(calc(${agentSlide} * (-33.333% - 4px)))` }}
-                          >
-                            {agentCards.map((card, i) => (
-                              <div key={i} className="shrink-0" style={{ minWidth: 'calc(33.333% - 8px)' }}>
-                                <motion.div
-                                  initial={{ y: 60, opacity: 0 }}
-                                  whileInView={{ y: 0, opacity: 1 }}
-                                  viewport={{ once: true, margin: "-50px" }}
-                                  transition={{ delay: i * 0.1, duration: 0.6, ease: "easeOut" }}
-                                >
-                                  <SolutionCard {...card} number={`0${i + 1}`} />
-                                </motion.div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                        {/* 네비게이션 버튼 */}
-                        <div className="flex items-center justify-end gap-2 mt-4">
-                          <button
-                            onClick={() => setAgentSlide(Math.max(0, agentSlide - 1))}
-                            disabled={agentSlide === 0}
-                            className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-100 hover:text-gray-900 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                          >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-                          </button>
-                          <button
-                            onClick={() => setAgentSlide(Math.min(maxSlide, agentSlide + 1))}
-                            disabled={agentSlide >= maxSlide}
-                            className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-100 hover:text-gray-900 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                          >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })()}
-                </div>
-
-                {/* 그룹 2: IT 서비스/개발 직군 */}
-                <div className="mb-14 max-w-[1024px] mx-auto">
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="flex items-center gap-2 mb-5 ml-4"
-                  >
-                    <span className="text-[18px] font-normal text-gray-800">솔루션</span>
-                  </motion.div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-4 gap-3">
                     {[
-                      {
-                        image: "/logo_4.png",
-                        title: "CloudWiz",
-                        desc: "클라우드 운영 효율화와 자동화를 지원하는 관리 서비스",
-                        highlight: "#멀티 클라우드 비용 30% 절감"
-                      },
-                      {
-                        image: "/logo_5.png",
-                        title: "Beast AI Gateway", isLarge: true,
-                        desc: "엔터프라이즈용 AI 기술, API를 통합 관리하는 솔루션",
-                        highlight: "#기업 내부 시스템과 AI 기능 표준화"
-                      },
-                      {
-                        image: "/logo_6.png",
-                        title: "Codebox",
-                        desc: "폐쇄형 설치형 AI 코드 개발 어플라이언스",
-                        highlight: "#보안 특화 AI 개발 환경"
-                      }
+                      { image: "/logo_4.png", title: "Audit Agent", tab: "Audit Agent", desc: "국정감사 자료 분석부터 핵심 이슈 도출까지 지원하는 AI 서비스", highlight: "#업무 생산성 30% 향상", bgSvg: <BgAuditAgent /> },
+                      { image: "/logo_1.png", title: "RFP Agent", tab: "RFP Agent", desc: "제안요청서(RFP) 분석, 요구사항 정리, 제안서 초안 작성을 지원하는 AI 서비스", highlight: "#작성시간 60% 절감", bgSvg: <BgRfpAgent /> },
+                      { image: "/logo_3.png", title: "AI 회의록", tab: "AI 회의록", desc: "음성 기반 회의 자동 기록 · 요약 · 업무 추출 AI 서비스", highlight: "#1분 완성 회의록 작성", bgSvg: <BgMeetingMinutes /> },
+                      { image: "/logo_2.png", title: "WorksAI", tab: "AI Portal", desc: "AI Agent 기반으로 다양한 업무처리를 지원하는 사내 AI Agent Portal", highlight: "#업무 효율 200% 향상", bgSvg: <BgWorksAI /> },
                     ].map((card, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ y: 60, opacity: 0 }}
-                        whileInView={{ y: 0, opacity: 1 }}
-                        viewport={{ once: false, margin: "-50px" }}
-                        transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
-                      >
-                        <SolutionCard {...card} number={`0${i + 1}`} />
-                      </motion.div>
+                      <SolutionCard key={i} {...card} number={`0${i + 1}`} onClick={() => navigate(`/platform/agents?tab=${encodeURIComponent(card.tab)}`)} />
                     ))}
                   </div>
                 </div>
 
-                {/* 하단 Use Case 이미지 추가 */}
-                <div className="mt-8 md:mt-20 w-full max-w-[1024px] mx-auto px-4 lg:px-0">
+                {/* 그룹 2: IT 서비스/개발 직군 */}
+                <div className="mb-6 max-w-[1024px] mx-auto">
                   <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="text-center mb-10 md:mb-12 font-pretendard flex flex-col items-center relative z-10"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="flex items-center gap-2 mb-3 ml-4"
                   >
-                    <h2 className="text-[26px] md:text-[36px] lg:text-[58px] font-bold text-black tracking-tight leading-tight">
-                      고객 사례
-                    </h2>
+                    <span className="text-[18px] font-normal text-gray-800">AI 솔루션</span>
                   </motion.div>
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-                    className="w-full rounded-[24px] overflow-hidden justify-center shadow-2xl relative"
-                  >
-                    <img 
-                      src="/usecase01.png" 
-                      alt="Solution Architecture" 
-                      className="w-full h-auto object-cover"
-                    />
-                  </motion.div>
+                  <div className="grid grid-cols-4 gap-3">
+                    {[
+                      { image: "/logo_1.png", title: "AI:ON-U", tab: "AI:ON-U", desc: "엔터프라이즈 맞춤형 AI Agent를 빠르게 구축하는 No-Code 기반 Agent Builder", highlight: "#3분 완성 Agent", bgSvg: <BgAionU /> },
+                      { image: "/logo_4.png", title: "CloudWiz", tab: "CloudWiz", desc: "클라우드 운영 효율화와 자동화를 지원하는 관리 서비스", highlight: "#멀티 클라우드 비용 30% 절감", bgSvg: <BgCloudWiz /> },
+                      { image: "/logo_5.png", title: "Beast AI Gateway", tab: "Beast AI Gateway", desc: "엔터프라이즈용 AI 기술, API를 통합 관리하는 솔루션", highlight: "#기업 내부 시스템과 AI 기능 표준화", bgSvg: <BgBeastGateway /> },
+                      { image: "/logo_6.png", title: "Codebox", tab: "Codebox", desc: "폐쇄형 설치형 AI 코드 개발 어플라이언스", highlight: "#보안 특화 AI 개발 환경", bgSvg: <BgCodebox /> },
+                    ].map((card, i) => (
+                      <SolutionCard key={i} {...card} number={`0${i + 1}`} onClick={() => navigate(`/platform/solutions?tab=${encodeURIComponent(card.tab)}`)} />
+                    ))}
+                  </div>
                 </div>
-
 
               </div>
             </section>
           </motion.div>
+        </div>
+
+        {/* 고객 사례 섹션 — AI 서비스와 분리 */}
+        <div className="relative z-20 bg-white py-14">
+          <div className="w-full max-w-[1024px] mx-auto container-responsive px-4 lg:px-0">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="text-center mb-10 md:mb-12 font-pretendard flex flex-col items-center"
+            >
+              <h2 className="text-[26px] md:text-[36px] lg:text-[48px] font-bold text-black tracking-tight leading-tight">
+                고객 사례
+              </h2>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+              className="w-full rounded-[24px] overflow-hidden shadow-2xl"
+            >
+              <img
+                src="/usecase01.png"
+                alt="Solution Architecture"
+                className="w-full h-auto object-cover"
+              />
+            </motion.div>
+          </div>
         </div>
 
 
@@ -1476,7 +1506,7 @@ const App = () => {
               <img
                 src="/ktds_white.png"
                 alt="kt ds"
-                className="h-8 w-auto object-contain"
+                className="h-8 w-auto object-contain brightness-0 opacity-60"
               />
               <p className="text-[14px] text-gray-700 font-medium text-left">
                 (06707) 서울 서초구 효령로 176, 02-523-7029

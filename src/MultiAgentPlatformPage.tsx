@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronRight, ChevronLeft, Play, Download, Mail, Phone } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { PlatformProduct } from '@/context/platform/platform-data-test';
 import { useProductsContext } from '@/context/platform/ProductsContext';
@@ -29,13 +29,22 @@ function EmptyPlaceholder({ label }: { label: string }) {
 }
 
 export default function MultiAgentPlatformPage({ config, activePage = 'agents' }: MultiAgentPlatformPageProps) {
-    const [activeTab, setActiveTab] = useState(config.sidebarItems[0]);
+    const [searchParams] = useSearchParams();
+    const [activeTab, setActiveTab] = useState(() => {
+        const tab = searchParams.get('tab');
+        return (tab && config.sidebarItems.includes(tab)) ? tab : config.sidebarItems[0];
+    });
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     useEffect(() => {
-        setActiveTab(sidebarItems[0] ?? config.sidebarItems[0]);
+        const tab = searchParams.get('tab');
+        if (tab && sidebarItems.includes(tab)) {
+            setActiveTab(tab);
+        } else {
+            setActiveTab(sidebarItems[0] ?? config.sidebarItems[0]);
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [activePage]);
+    }, [activePage, searchParams]);
 
     useEffect(() => {
         setCurrentImageIndex(0);
